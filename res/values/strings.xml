@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">url-expander</string>
+    <string name="app_name">URL Expander</string>
+    <string name="expand_url">Expand URL</string>
 </resources>
