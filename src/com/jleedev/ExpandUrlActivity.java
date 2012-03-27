@@ -1,6 +1,7 @@
 package com.jleedev;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -15,41 +16,67 @@ public class ExpandUrlActivity extends Activity {
   private static final String USER_AGENT = "Android URL Expander";
 
   TextView outputLabel;
+  ExpandUrlTask mExpandUrlTask;
+  UrlCache cache;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
+    cache = new UrlCache(this);
     Uri uri = getIntent().getData();
     super.onCreate(savedInstanceState);
     setContentView(R.layout.main);
     TextView uriLabel = (TextView) findViewById(R.id.uri);
     outputLabel = (TextView) findViewById(R.id.output_label);
     uriLabel.setText(uri.toString());
-    new ExpandUrlTask().execute(uri);
+    mExpandUrlTask = new ExpandUrlTask();
+    mExpandUrlTask.execute(uri);
   }
 
-  class ExpandUrlTask extends AsyncTask<Uri, Void, String> {
+  @Override
+  public void onPause() {
+    super.onPause();
+    mExpandUrlTask.cancel(true);
+  }
 
-    @Override
-    protected String doInBackground(Uri... uris) {
-      try {
-        URL url = new URL(uris[0].toString());
-        HttpURLConnection client = (HttpURLConnection) url.openConnection();
-        client.setInstanceFollowRedirects(false);
-        String location = client.getHeaderField("location");
-        client.disconnect();
-        return location;
-      } catch (Exception e) {
-        throw new RuntimeException(e);
+  Uri resolve(Uri uri) {
+    Uri result;
+    if ((result = cache.findUri(uri)) != null) {
+      return result;
+    }
+    try {
+      URL url = new URL(uri.toString());
+      HttpURLConnection client = (HttpURLConnection) url.openConnection();
+      client.setInstanceFollowRedirects(false);
+      String location = client.getHeaderField("Location");
+      client.disconnect();
+      if (location == null) {
+        return null;
+      } else {
+        result = Uri.parse(location);
+        cache.putUri(uri, result);
+        return result;
       }
+    } catch (Exception e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  class ExpandUrlTask extends AsyncTask<Uri, Void, Uri> {
+    @Override
+    protected Uri doInBackground(Uri... uris) {
+      Uri uri = uris[0];
+      Uri result = resolve(uri);
+      if (result == null) {
+        cancel(true);
+      }
+      return result;
     }
 
     @Override
-    protected void onPostExecute(String result) {
-      if (result != null) {
-        outputLabel.setText(result);
-      } else {
-        outputLabel.setText("null");
-      }
+    protected void onPostExecute(Uri result) {
+      Intent intent = new Intent(Intent.ACTION_VIEW, result);
+      startActivity(intent);
+      finish();
     }
   }
 }

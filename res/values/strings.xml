@@ -2,4 +2,6 @@
 <resources>
     <string name="app_name">URL Expander</string>
     <string name="expand_url">Expand URL</string>
+    <string name="test_urls">Test URLs</string>
+    <string name="manage_cache">Manage cache</string>
 </resources>
