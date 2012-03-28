@@ -12,22 +12,23 @@
                   android:label="@string/expand_url"
                   android:configChanges="orientation|screenSize|keyboardHidden"
                   android:noHistory="true"
-                  android:theme="@android:style/Theme.Dialog">
+                  android:theme="@android:style/Theme.NoDisplay">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
                 <category android:name="android.intent.category.DEFAULT"/>
                 <category android:name="android.intent.category.BROWSABLE"/>
                 <data android:scheme="http"/>
                 <data android:scheme="https"/>
-                <data android:host="goo.gl"/>
-                <data android:host="t.co"/>
-                <data android:host="j.mp"/>
-                <data android:host="cl.ly"/>
                 <data android:host="api.cld.me"/>
                 <data android:host="bit.ly"/>
-                <data android:host="is.gd"/>
-                <data android:host="youtu.be"/>
+                <data android:host="cl.ly"/>
                 <data android:host="feedproxy.google.com"/>
+                <data android:host="is.gd"/>
+                <data android:host="j.mp"/>
+                <data android:host="goo.gl"/>
+                <data android:host="ow.ly"/>
+                <data android:host="t.co"/>
+                <data android:host="youtu.be"/>
             </intent-filter>
         </activity>
 
