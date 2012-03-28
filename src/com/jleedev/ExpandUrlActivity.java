@@ -33,9 +33,16 @@ public class ExpandUrlActivity extends Activity {
   }
 
   @Override
+  public void onResume() {
+    super.onResume();
+    overridePendingTransition (0, 0);
+  }
+
+  @Override
   public void onPause() {
     super.onPause();
     mExpandUrlTask.cancel(true);
+    overridePendingTransition (0, 0);
   }
 
   Uri resolve(Uri uri) {
