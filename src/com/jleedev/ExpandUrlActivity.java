@@ -15,7 +15,6 @@ public class ExpandUrlActivity extends Activity {
   private static final String TAG = "ExpandUrlActivity";
   private static final String USER_AGENT = "Android URL Expander";
 
-  TextView outputLabel;
   ExpandUrlTask mExpandUrlTask;
   UrlCache cache;
   UrlCleaner urlCleaner;
@@ -28,7 +27,6 @@ public class ExpandUrlActivity extends Activity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.main);
     TextView uriLabel = (TextView) findViewById(R.id.uri);
-    outputLabel = (TextView) findViewById(R.id.output_label);
     uriLabel.setText(uri.toString());
     mExpandUrlTask = new ExpandUrlTask();
     mExpandUrlTask.execute(uri);
