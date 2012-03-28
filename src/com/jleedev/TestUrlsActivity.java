@@ -14,6 +14,7 @@ public class TestUrlsActivity extends ListActivity {
           Uri.parse("http://t.co/N2Ivhj0O"),
           Uri.parse("https://t.co/4LzOmUQ9"),
           Uri.parse("http://t.co/Yflsf54M"),
+          Uri.parse("http://feedproxy.google.com/~r/GooglePublicPolicyBlog/~3/wDlEpK19UW8/explore-mandelas-archives-online.html"),
   };
 
   public void onCreate(Bundle savedInstanceState) {

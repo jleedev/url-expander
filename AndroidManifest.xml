@@ -26,6 +26,8 @@
                 <data android:host="cl.ly"/>
                 <data android:host="bit.ly"/>
                 <data android:host="is.gd"/>
+                <data android:host="youtu.be"/>
+                <data android:host="feedproxy.google.com"/>
             </intent-filter>
         </activity>
 
