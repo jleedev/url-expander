@@ -8,6 +8,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
 import android.util.Log;
 
+import java.io.File;
+
 public class UrlCache {
   private final UrlCacheOpenHelper helper;
 
@@ -45,12 +47,13 @@ public class UrlCache {
     private static final String TAG = "UrlCacheOpenHelper";
 
     private static final String DATABASE_NAME = "db";
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 3;
     private static final String URL_CACHE_TABLE_CREATE =
-            "CREATE TABLE url_cache (short_url TEXT, long_url TEXT);";
+            "CREATE TABLE url_cache (short_url TEXT PRIMARY KEY NOT NULL, long_url TEXT NOT NULL);";
 
     public UrlCacheOpenHelper(Context context) {
-      super(context, DATABASE_NAME, null, DATABASE_VERSION);
+      super(context, context.getCacheDir().getAbsolutePath() + File.separator + DATABASE_NAME, null,
+              DATABASE_VERSION);
     }
 
     @Override
