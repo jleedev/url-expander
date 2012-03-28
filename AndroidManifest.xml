@@ -22,12 +22,14 @@
                 <data android:host="api.cld.me"/>
                 <data android:host="bit.ly"/>
                 <data android:host="cl.ly"/>
+                <data android:host="fb.me"/>
                 <data android:host="feedproxy.google.com"/>
                 <data android:host="is.gd"/>
                 <data android:host="j.mp"/>
                 <data android:host="goo.gl"/>
                 <data android:host="ow.ly"/>
                 <data android:host="t.co"/>
+                <data android:host="tinyurl.com"/>
                 <data android:host="youtu.be"/>
             </intent-filter>
         </activity>
