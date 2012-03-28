@@ -1,4 +1,4 @@
-package com.jleedev;
+package com.jleedev.urlexpander;
 
 import android.R;
 import android.app.ListActivity;

@@ -1,4 +1,4 @@
-package com.jleedev;
+package com.jleedev.urlexpander;
 
 import android.app.Activity;
 import android.content.Intent;
