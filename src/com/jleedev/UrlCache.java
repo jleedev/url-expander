@@ -21,11 +21,14 @@ public class UrlCache {
     Cursor cursor = db.query("url_cache", new String[]{"long_url"}, "short_url = ?",
             new String[]{keyStr},
             null, null, null);
+    Uri result;
     if (cursor.moveToFirst()) {
-      return Uri.parse(cursor.getString(0));
+      result = Uri.parse(cursor.getString(0));
     } else {
-      return null;
+      result = null;
     }
+    db.close();
+    return result;
   }
 
   public void putUri(Uri key, Uri value) {
@@ -34,6 +37,7 @@ public class UrlCache {
     values.put("short_url", key.toString());
     values.put("long_url", value.toString());
     db.insert("url_cache", null, values);
+    db.close();
   }
 
   private static class UrlCacheOpenHelper extends SQLiteOpenHelper {
