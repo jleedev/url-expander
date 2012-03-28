@@ -18,10 +18,12 @@ public class ExpandUrlActivity extends Activity {
   TextView outputLabel;
   ExpandUrlTask mExpandUrlTask;
   UrlCache cache;
+  UrlCleaner urlCleaner;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
     cache = new UrlCache(this);
+    urlCleaner = new UrlCleaner();
     Uri uri = getIntent().getData();
     super.onCreate(savedInstanceState);
     setContentView(R.layout.main);
@@ -69,6 +71,7 @@ public class ExpandUrlActivity extends Activity {
       if (result == null) {
         cancel(true);
       }
+      result = urlCleaner.cleanUp(result);
       return result;
     }
 
