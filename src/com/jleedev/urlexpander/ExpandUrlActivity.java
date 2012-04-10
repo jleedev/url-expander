@@ -12,18 +12,25 @@ import java.net.URL;
 
 public class ExpandUrlActivity extends Activity {
 
-  private static final String TAG = "ExpandUrlActivity";
-  private static final String USER_AGENT = "Android URL Expander";
+  static final String URL_ORIGINAL = "com.jleedev.urlexpander.EXTRA_URL_ORIGINAL";
 
   ExpandUrlTask mExpandUrlTask;
   UrlCache cache;
   UrlCleaner urlCleaner;
+  String urlOriginal;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
     cache = new UrlCache(this);
     urlCleaner = new UrlCleaner();
     Uri uri = getIntent().getData();
+    urlOriginal = getIntent().getStringExtra(URL_ORIGINAL);
+    if (urlOriginal == null) {
+      urlOriginal = uri.toString();
+    } else if (urlOriginal.equals(uri.toString())) {
+      giveUp(uri);
+      return;
+    }
     super.onCreate(savedInstanceState);
     setContentView(R.layout.main);
     TextView uriLabel = (TextView) findViewById(R.id.uri);
@@ -35,12 +42,19 @@ public class ExpandUrlActivity extends Activity {
   @Override
   public void onPause() {
     super.onPause();
-    mExpandUrlTask.cancel(true);
+    if (mExpandUrlTask != null) {
+      mExpandUrlTask.cancel(true);
+    }
+  }
+
+  void giveUp(Uri uri) {
+    startActivity(Intent.createChooser(getIntent(), null));
+    finish();
   }
 
   Uri resolve(Uri uri) {
-    Uri result;
-    if ((result = cache.findUri(uri)) != null) {
+    Uri result = cache.findUri(uri);
+    if (result != null) {
       return result;
     }
     try {
@@ -65,17 +79,34 @@ public class ExpandUrlActivity extends Activity {
     @Override
     protected Uri doInBackground(Uri... uris) {
       Uri uri = uris[0];
-      Uri result = resolve(uri);
-      if (result == null) {
-        cancel(true);
+      try {
+        if (false) {
+          // Convince java that this exception might be thrown.
+          throw new InterruptedException();
+        }
+        Uri result = resolve(uri);
+        if (result == null) {
+          cancel(true);
+        }
+        result = urlCleaner.cleanUp(result);
+        return result;
+      } catch (InterruptedException e) {
+        return null;
       }
-      result = urlCleaner.cleanUp(result);
-      return result;
+    }
+
+    @Override
+    public void onCancelled(Uri result) {
+      giveUp(result);
     }
 
     @Override
     protected void onPostExecute(Uri result) {
+      if (result == null) {
+        return;
+      }
       Intent intent = new Intent(Intent.ACTION_VIEW, result);
+      intent.putExtra(URL_ORIGINAL, urlOriginal);
       startActivity(intent);
       finish();
     }

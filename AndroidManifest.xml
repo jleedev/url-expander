@@ -12,7 +12,7 @@
                   android:label="@string/expand_url"
                   android:configChanges="orientation|screenSize|keyboardHidden"
                   android:noHistory="true"
-                  android:theme="@android:style/Theme.NoDisplay">
+                  android:theme="@android:style/Theme.Holo.Light.Dialog">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
                 <category android:name="android.intent.category.DEFAULT"/>
@@ -35,13 +35,6 @@
                 <data android:host="tinyurl.com"/>
                 <data android:host="tmblr.co"/>
                 <data android:host="youtu.be"/>
-            </intent-filter>
-        </activity>
-
-        <activity android:name=".TestUrlsActivity" android:label="@string/test_urls">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
 
