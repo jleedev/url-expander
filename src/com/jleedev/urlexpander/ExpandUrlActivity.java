@@ -86,25 +86,17 @@ public class ExpandUrlActivity extends Activity {
         }
         Uri result = resolve(uri);
         if (result == null) {
-          cancel(true);
+          return uri;
         }
         result = urlCleaner.cleanUp(result);
         return result;
       } catch (InterruptedException e) {
-        return null;
+        return uri;
       }
-    }
-
-    @Override
-    public void onCancelled(Uri result) {
-      giveUp(result);
     }
 
     @Override
     protected void onPostExecute(Uri result) {
-      if (result == null) {
-        return;
-      }
       Intent intent = new Intent(Intent.ACTION_VIEW, result);
       intent.putExtra(URL_ORIGINAL, urlOriginal);
       startActivity(intent);
