@@ -19,10 +19,8 @@
                 <category android:name="android.intent.category.BROWSABLE"/>
                 <data android:scheme="http"/>
                 <data android:scheme="https"/>
-                <data android:host="api.cld.me"/>
                 <data android:host="awe.sm"/>
                 <data android:host="bit.ly"/>
-                <data android:host="cl.ly"/>
                 <data android:host="fb.me"/>
                 <data android:host="ff.im"/>
                 <data android:host="feedproxy.google.com"/>
